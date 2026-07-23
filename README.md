@@ -1,6 +1,8 @@
 # Premium TypeScript Calculator (TS Calc)
 
-**TypeScript** と **Vite** で構築された、洗練されたデザインと豊富な機能を備えた電卓ウェブアプリケーションです。グラスモフィズム（ガラス風デザイン）を取り入れたモダンなUI、滑らかなアニメーション、ダークモード/ライトモードの切り替え、関数電卓モード、および計算履歴機能を搭載しています。
+**TypeScript** で構築された、洗練されたデザインと豊富な機能を備えた電卓ウェブアプリケーションです。グラスモフィズム（ガラス風デザイン）を取り入れたモダンなUI、滑らかなアニメーション、ダークモード/ライトモードの切り替え、関数電卓モード、および計算履歴機能を搭載しています。
+
+このプロジェクトはビルドツール（Viteなど）を使用せず、コンパイル後のJavaScriptを直接ブラウザで読み込んで動作するため、ローカルでファイルをダブルクリックするだけで簡単に動かすことができます。
 
 ## ✨ 主な機能
 
@@ -14,43 +16,44 @@
 - **計算履歴**: 過去の計算結果を一覧で確認・管理。
 - **キーボード操作**: 標準的な電卓入力に対応したキーボードショートカット。
 
-## 🚀 はじめに
+## 🚀 実行方法
+
+特別なサーバーやビルドの起動は不要です。
+
+1. このリポジトリをクローンするか、ZIPでダウンロードします。
+2. フォルダ内にある **`index.html` をブラウザで直接開く**（ダブルクリック）だけで電卓が起動します！
+
+## 🛠️ 開発者向け（TypeScriptのコンパイル方法）
+
+コードを変更して再コンパイルしたい場合は、以下の手順で行います。
 
 ### 前提条件
 
 - Node.js (v18 以上推奨)
-- npm (または yarn / pnpm)
+- npm
 
-### インストールと実行方法
+### コンパイル手順
 
-1. **リポジトリのクローン**（まだ行っていない場合）:
-   ```bash
-   git clone https://github.com/dodoco314/TypescriptKadai.git
-   cd TypescriptKadai
-   ```
-
-2. **依存関係のインストール**:
+1. 依存関係（TypeScript）のインストール:
    ```bash
    npm install
    ```
 
-3. **開発サーバーの起動**:
-   ```bash
-   npm run dev
-   ```
-   ターミナルに表示されるローカルサーバーのURL（通常は `http://localhost:5173`）をブラウザで開きます。
-
-4. **本番用ビルドの作成**:
+2. TypeScriptのコンパイル (`script.ts` から `script.js` を生成):
    ```bash
    npm run build
    ```
 
+3. コードを編集しながら自動コンパイル（ウォッチモード）:
+   ```bash
+   npm run watch
+   ```
+
 ## 🛠️ 使用技術
 
-- **フレームワーク/バンドラー**: [Vite](https://vitejs.dev/)
-- **言語**: [TypeScript](https://www.typescriptlang.org/)
+- **言語**: [TypeScript](https://www.typescriptlang.org/) (コンパイル先: JavaScript ES2020)
 - **スタイリング**: CSS (カスタムプロパティ、Flexbox/Grid、グラスモフィズム)
-- **アイコン**: [Feather Icons](https://feathericons.com/)
+- **アイコン**: [Feather Icons](https://feathericons.com/) (CDN経由)
 
 ---
 TypeScript Web アプリケーション開発プロジェクト
