@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium TypeScript Calculator</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/src/style.css">
+  <!-- Icons via Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <div class="app-background">
+    <div class="bg-gradient-circle bg-circle-1"></div>
+    <div class="bg-gradient-circle bg-circle-2"></div>
+  </div>
+
+  <main class="calculator-wrapper">
+    <!-- Calculator Container -->
+    <div class="calculator-container" id="calculator">
+      <!-- Top Bar / Navigation -->
+      <header class="calculator-header">
+        <div class="logo">
+          <span class="logo-accent">TS</span> Calc
+        </div>
+        <div class="header-actions">
+          <button id="theme-toggle" class="icon-btn" title="テーマ切り替え" aria-label="Toggle Theme">
+            <i data-feather="sun" class="sun-icon"></i>
+            <i data-feather="moon" class="moon-icon"></i>
+          </button>
+          <button id="history-toggle" class="icon-btn" title="履歴を表示" aria-label="Toggle History">
+            <i data-feather="clock"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Screen/Display Area -->
+      <section class="calculator-screen">
+        <div class="history-display" id="history-preview"></div>
+        <div class="input-display-container">
+          <span class="mode-indicator" id="angle-mode-indicator">DEG</span>
+          <div class="main-display" id="display" tabindex="0">0</div>
+        </div>
+      </section>
+
+      <!-- Controls Panel (Toggle for Scientific Mode) -->
+      <section class="calculator-controls">
+        <button id="scientific-toggle" class="pill-toggle-btn">
+          <span>Scientific</span>
+          <i data-feather="chevron-right" class="arrow-icon"></i>
+        </button>
+      </section>
+
+      <!-- Keyboards Container -->
+      <div class="keyboards-container">
+        <!-- Scientific Keyboard (Left/Sliding panel) -->
+        <aside class="scientific-keyboard" id="scientific-panel">
+          <div class="scientific-grid">
+            <button class="key sci-key" data-val="rad-deg" id="key-rad-deg">Deg/Rad</button>
+            <button class="key sci-key" data-val="(">(</button>
+            <button class="key sci-key" data-val=")">)</button>
+            <button class="key sci-key" data-val="pi">&pi;</button>
+            <button class="key sci-key" data-val="e">e</button>
+
+            <button class="key sci-key" data-val="sin">sin</button>
+            <button class="key sci-key" data-val="cos">cos</button>
+            <button class="key sci-key" data-val="tan">tan</button>
+            <button class="key sci-key" data-val="sqrt">&radic;</button>
+            <button class="key sci-key" data-val="cbrt">&#8731;</button>
+
+            <button class="key sci-key" data-val="pow">x<sup>y</sup></button>
+            <button class="key sci-key" data-val="sqr">x<sup>2</sup></button>
+            <button class="key sci-key" data-val="cube">x<sup>3</sup></button>
+            <button class="key sci-key" data-val="log">log</button>
+            <button class="key sci-key" data-val="ln">ln</button>
+          </div>
+        </aside>
+
+        <!-- Standard Keyboard -->
+        <section class="standard-keyboard">
+          <div class="standard-grid">
+            <!-- Row 1 -->
+            <button class="key func-key" data-val="clear" id="key-clear">AC</button>
+            <button class="key func-key" data-val="backspace" id="key-backspace" title="Delete">
+              <i data-feather="delete"></i>
+            </button>
+            <button class="key op-key" data-val="%">%</button>
+            <button class="key op-key" data-val="/" id="key-divide">&divide;</button>
+
+            <!-- Row 2 -->
+            <button class="key num-key" data-val="7">7</button>
+            <button class="key num-key" data-val="8">8</button>
+            <button class="key num-key" data-val="9">9</button>
+            <button class="key op-key" data-val="*" id="key-multiply">&times;</button>
+
+            <!-- Row 3 -->
+            <button class="key num-key" data-val="4">4</button>
+            <button class="key num-key" data-val="5">5</button>
+            <button class="key num-key" data-val="6">6</button>
+            <button class="key op-key" data-val="-" id="key-subtract">&minus;</button>
+
+            <!-- Row 4 -->
+            <button class="key num-key" data-val="1">1</button>
+            <button class="key num-key" data-val="2">2</button>
+            <button class="key num-key" data-val="3">3</button>
+            <button class="key op-key" data-val="+" id="key-add">+</button>
+
+            <!-- Row 5 -->
+            <button class="key num-key" data-val="negate">&plusmn;</button>
+            <button class="key num-key" data-val="0">0</button>
+            <button class="key num-key" data-val=".">.</button>
+            <button class="key eq-key" data-val="equals" id="key-equals">=</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- History Drawer (Slide-out panel) -->
+    <aside class="history-drawer" id="history-drawer">
+      <div class="history-drawer-header">
+        <h3>計算履歴</h3>
+        <div class="drawer-actions">
+          <button id="clear-history" class="text-btn">履歴をクリア</button>
+          <button id="history-close" class="icon-btn" aria-label="Close History">
+            <i data-feather="x"></i>
+          </button>
+        </div>
+      </div>
+      <div class="history-list" id="history-list">
+        <p class="empty-history-msg">履歴はありません</p>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Script Injection -->
+  <script type="module" src="/src/main.ts"></script>
+  <script>
+    // Initialize Feather Icons
+    window.addEventListener('DOMContentLoaded', () => {
+      feather.replace();
+    });
+  </script>
+</body>
+</html>

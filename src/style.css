@@ -1,0 +1,690 @@
+/* Modern Custom Properties & Reset */
+:root {
+  /* Common variables */
+  --font-main: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --border-radius-lg: 24px;
+  --border-radius-md: 16px;
+  --border-radius-sm: 8px;
+  --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.25);
+  
+  /* Dark Theme Palette (Default) */
+  --bg-primary: #0b0f19;
+  --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 100%);
+  --calc-bg: rgba(17, 24, 39, 0.85);
+  --calc-border: rgba(255, 255, 255, 0.08);
+  --screen-bg: rgba(3, 7, 18, 0.6);
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  
+  /* Buttons */
+  --btn-num-bg: rgba(31, 41, 55, 0.6);
+  --btn-num-text: #f3f4f6;
+  --btn-num-hover: rgba(55, 65, 81, 0.8);
+  
+  --btn-op-bg: rgba(79, 70, 229, 0.15);
+  --btn-op-text: #818cf8;
+  --btn-op-hover: rgba(79, 70, 229, 0.3);
+  
+  --btn-func-bg: rgba(243, 244, 246, 0.08);
+  --btn-func-text: #d1d5db;
+  --btn-func-hover: rgba(243, 244, 246, 0.15);
+
+  --btn-sci-bg: rgba(139, 92, 246, 0.1);
+  --btn-sci-text: #a78bfa;
+  --btn-sci-hover: rgba(139, 92, 246, 0.2);
+
+  --history-drawer-bg: rgba(17, 24, 39, 0.95);
+}
+
+[data-theme="light"] {
+  /* Light Theme Palette */
+  --bg-primary: #f1f5f9;
+  --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  --calc-bg: rgba(255, 255, 255, 0.8);
+  --calc-border: rgba(0, 0, 0, 0.06);
+  --screen-bg: rgba(248, 250, 252, 0.9);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --accent-color: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  
+  /* Buttons */
+  --btn-num-bg: rgba(255, 255, 255, 0.9);
+  --btn-num-text: #1e293b;
+  --btn-num-hover: rgba(241, 245, 249, 1);
+  
+  --btn-op-bg: rgba(79, 70, 229, 0.08);
+  --btn-op-text: #4f46e5;
+  --btn-op-hover: rgba(79, 70, 229, 0.18);
+  
+  --btn-func-bg: rgba(100, 116, 139, 0.08);
+  --btn-func-text: #475569;
+  --btn-func-hover: rgba(100, 116, 139, 0.18);
+
+  --btn-sci-bg: rgba(124, 58, 237, 0.06);
+  --btn-sci-text: #7c3aed;
+  --btn-sci-hover: rgba(124, 58, 237, 0.15);
+
+  --history-drawer-bg: rgba(255, 255, 255, 0.96);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: var(--transition-normal);
+  position: relative;
+}
+
+/* Background Graphic Circles for Depth */
+.app-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-gradient-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  transition: var(--transition-smooth);
+}
+
+[data-theme="light"] .bg-gradient-circle {
+  opacity: 0.1;
+}
+
+.bg-circle-1 {
+  top: -10%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.bg-circle-2 {
+  bottom: -15%;
+  left: -5%;
+  width: 45vw;
+  height: 45vw;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+}
+
+/* Wrapper to handle scaling/alignment */
+.calculator-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1;
+}
+
+/* Main Calculator Glass Container */
+.calculator-container {
+  background: var(--calc-bg);
+  border: 1px solid var(--calc-border);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  width: 380px;
+  padding: 24px;
+  box-shadow: var(--shadow-premium);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: var(--transition-smooth);
+  overflow: hidden;
+}
+
+/* Expanded state for Scientific Mode */
+.calculator-container.scientific-active {
+  width: 720px;
+}
+
+/* Header */
+.calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.logo-accent {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+}
+
+.icon-btn:hover {
+  background: var(--btn-func-hover);
+  color: var(--text-main);
+  transform: translateY(-2px);
+}
+
+.icon-btn:active {
+  transform: translateY(0);
+}
+
+/* Theme icon toggling */
+.sun-icon {
+  display: none;
+}
+
+[data-theme="light"] .sun-icon {
+  display: block;
+}
+
+[data-theme="light"] .moon-icon {
+  display: none;
+}
+
+/* Calculator Screen Display */
+.calculator-screen {
+  background: var(--screen-bg);
+  border-radius: var(--border-radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  min-height: 120px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.history-display {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  width: 100%;
+  text-align: right;
+  word-wrap: break-word;
+  word-break: break-all;
+  min-height: 1.2rem;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.input-display-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: 12px;
+}
+
+.mode-indicator {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+  background: rgba(99, 102, 241, 0.12);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  opacity: 0;
+  transition: var(--transition-normal);
+}
+
+.mode-indicator.visible {
+  opacity: 1;
+}
+
+.main-display {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: var(--text-main);
+  width: 100%;
+  text-align: right;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none; /* Firefox */
+}
+
+.main-display::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Controls (Mode Switcher) */
+.calculator-controls {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.pill-toggle-btn {
+  background: var(--btn-func-bg);
+  border: 1px solid var(--calc-border);
+  color: var(--text-muted);
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-normal);
+}
+
+.pill-toggle-btn:hover {
+  background: var(--btn-func-hover);
+  color: var(--text-main);
+}
+
+.pill-toggle-btn .arrow-icon {
+  width: 14px;
+  height: 14px;
+  transition: var(--transition-normal);
+}
+
+.scientific-active .pill-toggle-btn .arrow-icon {
+  transform: rotate(180deg);
+}
+
+/* Keyboards Layout Container */
+.keyboards-container {
+  display: flex;
+  width: 100%;
+  transition: var(--transition-smooth);
+}
+
+/* Panels */
+.scientific-keyboard {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  visibility: hidden;
+}
+
+.scientific-active .scientific-keyboard {
+  width: calc(50% - 6px);
+  margin-right: 6px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.standard-keyboard {
+  width: 100%;
+  transition: var(--transition-smooth);
+}
+
+.scientific-active .standard-keyboard {
+  width: calc(50% - 6px);
+  margin-left: 6px;
+}
+
+/* Grids */
+.standard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.scientific-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Button Keys */
+.key {
+  border: none;
+  font-family: var(--font-main);
+  font-size: 1.15rem;
+  font-weight: 500;
+  height: 56px;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.key svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Key Colors and Hover Themes */
+.num-key {
+  background: var(--btn-num-bg);
+  color: var(--btn-num-text);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.num-key:hover {
+  background: var(--btn-num-hover);
+  transform: translateY(-2px);
+}
+
+.op-key {
+  background: var(--btn-op-bg);
+  color: var(--btn-op-text);
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.op-key:hover {
+  background: var(--btn-op-hover);
+  transform: translateY(-2px);
+}
+
+.func-key {
+  background: var(--btn-func-bg);
+  color: var(--btn-func-text);
+}
+
+.func-key:hover {
+  background: var(--btn-func-hover);
+  transform: translateY(-2px);
+}
+
+.sci-key {
+  background: var(--btn-sci-bg);
+  color: var(--btn-sci-text);
+  font-size: 0.95rem;
+}
+
+.sci-key:hover {
+  background: var(--btn-sci-hover);
+  transform: translateY(-2px);
+}
+
+/* Specific standard keys */
+.eq-key {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.eq-key:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.key:active {
+  transform: translateY(0) scale(0.96) !important;
+}
+
+/* Keyboard active highlight emulation class */
+.key.active-simulation {
+  animation: key-click-animation 0.15s ease-out;
+}
+
+@keyframes key-click-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.92);
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* History Side Drawer */
+.history-drawer {
+  position: absolute;
+  top: 0;
+  right: -360px; /* Initially offscreen */
+  width: 340px;
+  height: 100%;
+  background: var(--history-drawer-bg);
+  border-left: 1px solid var(--calc-border);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  z-index: 10;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: var(--transition-smooth);
+  border-top-right-radius: var(--border-radius-lg);
+  border-bottom-right-radius: var(--border-radius-lg);
+}
+
+.history-drawer.open {
+  right: 0;
+}
+
+.history-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--calc-border);
+  padding-bottom: 12px;
+}
+
+.history-drawer-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.drawer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: var(--transition-normal);
+}
+
+.text-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: thin;
+  padding-right: 4px;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background-color: var(--calc-border);
+  border-radius: 2px;
+}
+
+.empty-history-msg {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 40px;
+}
+
+/* Individual History Card */
+.history-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--calc-border);
+  padding: 12px;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  transition: var(--transition-normal);
+}
+
+.history-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent-color);
+  transform: translateX(-4px);
+}
+
+.history-item-formula {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  width: 100%;
+  text-align: right;
+  word-wrap: break-word;
+}
+
+.history-item-result {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  width: 100%;
+  text-align: right;
+  word-wrap: break-word;
+}
+
+/* Responsiveness adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    align-items: flex-end;
+  }
+  
+  .calculator-wrapper {
+    padding: 0;
+    max-width: 100%;
+    min-height: auto;
+  }
+
+  .calculator-container {
+    width: 100%;
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    padding: 16px;
+    max-height: 95vh;
+  }
+
+  .calculator-container.scientific-active {
+    width: 100%;
+  }
+
+  .keyboards-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    gap: 16px;
+  }
+
+  .scientific-keyboard {
+    width: 100% !important;
+    height: 0;
+    padding-right: 0;
+    margin: 0 !important;
+    transition: var(--transition-smooth);
+  }
+
+  .scientific-active .scientific-keyboard {
+    height: auto;
+    max-height: 180px;
+    padding-bottom: 8px;
+  }
+
+  .standard-keyboard {
+    width: 100% !important;
+    padding-left: 0;
+    margin: 0 !important;
+  }
+
+  .scientific-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  
+  .standard-grid {
+    gap: 8px;
+  }
+
+  .key {
+    height: 48px;
+    font-size: 1.1rem;
+  }
+
+  .history-drawer {
+    width: 100%;
+    right: -100%;
+    border-left: none;
+    border-top: 1px solid var(--calc-border);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  }
+}
